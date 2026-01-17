@@ -30,9 +30,28 @@ function updateBrisbaneTime() {
   brisbaneDate.innerHTML = brisbaneMoment.format("MMMM Do YYYY ");
   brisbaneTime.innerHTML = brisbaneMoment.format("h:mm:ss[<small>]A[</small>]");
 }
-
+function updateCity(event) {
+  let cityTimeZone = event.target.value;
+  let cityDisplayed = cityTimeZone.split("/")[1];
+  let cityTime = moment().tz(cityTimeZone);
+  let citiesElement = document.querySelector("#cities");
+  citiesElement.innerHTML = `
+  <div class="city">
+          <div>
+            <h2>${cityDisplayed}</h2>
+            <div class="date">${cityTime.format("MMMM Do YYYY")}</div>
+          </div>
+          <div class="time">${cityTime.format(
+            "hh:mm:ss"
+          )}<small>${cityTime.format("A")}</small></div>
+        </div>`;
+}
 setInterval(() => {
   updateRomeTime();
   updateLisbonTime();
   updateBrisbaneTime();
 }, 1000);
+
+let citySelection = document.querySelector("#city");
+
+citySelection.addEventListener("change", updateCity);
